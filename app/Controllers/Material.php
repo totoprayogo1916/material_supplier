@@ -12,9 +12,15 @@ class Material extends BaseController
     public function index()
     {
         $materialModel = new ModelsMaterial();
+        $search = $this->request->getGet('query');
+
+        if(is_numeric( $search )) {
+            $materialModel->where('buy_price', $search);
+        }
 
         $data = [
-            'materials' => $materialModel->findAll()
+            'materials' => $materialModel->findAll(),
+            'search' => $search
         ];
 
         return view('material/view', $data);
